@@ -1,6 +1,6 @@
 {
     "dependencies": {},
-    "anonymizedData": true,
-    "name": "m5",
+    "anonymizedData": false,
+    "name": "weather-bet",
     "id": "55c04e9d5ba977234597413b"
 }
