@@ -1,0 +1,22 @@
+{
+  "name": "weather-bet",
+  "version": "0.0.1",
+  "description": "Weather Bet App",
+  "main": "cron.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/esoterick/weather-bet.git"
+  },
+  "keywords": [
+    "fun"
+  ],
+  "author": "Robert J. Lambert III",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/esoterick/weather-bet/issues"
+  },
+  "homepage": "https://github.com/esoterick/weather-bet#readme"
+}
