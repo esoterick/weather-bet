@@ -18,5 +18,10 @@
   "bugs": {
     "url": "https://github.com/esoterick/weather-bet/issues"
   },
-  "homepage": "https://github.com/esoterick/weather-bet#readme"
+  "homepage": "https://github.com/esoterick/weather-bet#readme",
+  "dependencies": {
+    "bluebird": "^2.9.34",
+    "mailgun-js": "^0.7.1",
+    "request-promise": "^0.4.3"
+  }
 }
