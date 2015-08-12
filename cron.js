@@ -3,7 +3,9 @@
 var Mongoose = require('mongoose');
 var Promise = require("bluebird");
 var rp = require('request-promise');
-var myConnection = Mongoose.connect('mongodb://localhost/mean-dev');
+var mongo_host = process.env.MONGO_HOST;
+var mongo_database = process.env.MONGO_DATABASE;
+var myConnection = Mongoose.connect('mongodb://' + mongo_host + '/' + mongo_database);
 
 var TemperatureSchema = new Mongoose.Schema({
   created: {
@@ -27,13 +29,38 @@ var options = {
     method : 'GET'
 };
 
+var api_key = process.env.MAILGUN_KEY;
+var domain = process.env.MAILGUN_DOMAIN;
+var mail_to = process.env.MAILGUN_TO;
+
+var mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
+
+var mail_data = {
+  from: 'Weather Bet <weather@codingkills.io>',
+  to: mail_to,
+  subject: 'Congrats',
+  text: 'You Won! The weather reached 90 degrees...'
+};
+
+var temp = 0;
+
 rp(options)
-    .then(function (data) {
-        var jTemp = JSON.parse(data)['query']['results']['channel']['item']['condition']['temp'];
-        myTemperature.temp = jTemp;
-        return myTemperature.save();
-    }).then(function (data) {
-        return process.exit();
-    }).catch(function (err) {
-        process.exit();
-    });
+  .then(function (data) {
+    var jTemp = JSON.parse(data)['query']['results']['channel']['item']['condition']['temp'];
+    myTemperature.temp = jTemp;
+    temp = jTemp;
+    return myTemperature.save();
+  }).then(function (data) {
+    if (parseInt(temp) >= 90) {
+      return mailgun.messages().send(mail_data)
+    } else {
+      return process.exit();
+    }
+  }).then(function (body) {
+    return process.exit();
+  }).catch(function (err) {
+    if (err) {
+      console.error(err);
+    }
+    process.exit();
+  });
